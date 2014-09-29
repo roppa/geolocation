@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+<head>
+    <title>Geolocation</title>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+</head>
+<body>
+
+    <p id="result"></p>
+
+    <script type="text/javascript">
+
+        /**
+        * @description Simple example of getting geolocation and finding out country using google maps api 
+        */
+        if (navigator.geolocation) {
+
+            var message = document.getElementById("result"), i;
+
+            navigator.geolocation.getCurrentPosition(function(position) {
+
+                $.ajax("http://maps.googleapis.com/maps/api/geocode/json?latlng=" + position.coords.latitude + "," + position.coords.longitude + "&sensor=false")
+                    .done(function (data) {
+                        for (i in data.results) {
+                            if(data.results[i].types[0] === "country") {
+                                message.innerHTML = "Your country is " + data.results[i].formatted_address;
+                                break;
+                            }
+                        }
+                });
+
+            });
+        }
+    
+    </script>
+
+</body>
+</html>
